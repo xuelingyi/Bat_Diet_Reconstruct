@@ -2,12 +2,13 @@
 library(ape)
 ## run this in sif179
 args <- commandArgs(TRUE)
-rdata = args[1]
-id_start = as.numeric(args[2])
-id_end = as.numeric(args[3])
-diet.code=args[4]
+batch = as.numeric(args[1])
+rdata = args[2]
+id_start = as.numeric(args[3])
+id_end = as.numeric(args[4])
+diet.code=args[5]
 
-trees = read.table(paste0("tree100_batch1.txt"))
+trees = read.table(paste0("tree100_batch", batch, ".txt"))
 load(paste0(rdata, ".RData"))
 ## tree_100_sub, sif, diet.in, diet.states
 
@@ -36,5 +37,5 @@ for(id in (id_start+1):id_end){
 
 setwd("../")
 
-save(list = grep("aggregate", ls(), value=T), 
+save(list = grep("aggregate", ls(), value=T),
      file=paste0("mcmc_aggregate_diet6_", diet.code, "_", id_start, "_", id_end, ".RData"))
