@@ -98,6 +98,8 @@ batch=1
 tree_id=$(sed -n ${SLURM_ARRAY_TASK_ID}p tree100_batch${batch}.txt)
 rdata=sif179_100tree_batch1_diet6
 
+nsp=179
+
 for code in raw conserve
 do
 cd trees_${code}/tree_${tree_id}
