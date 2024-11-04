@@ -127,6 +127,5 @@ id_end=100
 for code in raw conserve
 do
 Rscript aggregate.R ${batch} ${rdata} ${id_start} ${id_end} ${code}
-#Rscript aggregate_genus.R ${batch} ${id_start} ${id_end} ${code}
 done
 
