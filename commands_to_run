@@ -103,7 +103,7 @@ nsp=179
 for code in raw conserve
 do
 cd trees_${code}/tree_${tree_id}
-Rscript ../../vertlife_extract_threshold_probability.R ${batch} ${SLURM_ARRAY_TASK_ID} ${rdata}
+Rscript ../../vertlife_extract_threshold_probability.R ${batch} ${SLURM_ARRAY_TASK_ID} ${rdata} ${nsp}
 cd ../../
 done
 
