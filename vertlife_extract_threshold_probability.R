@@ -14,7 +14,6 @@ args <- commandArgs(TRUE)
 batch=as.numeric(args[1])
 batch_tree_index=as.numeric(args[2])
 rdata = args[3]
-nsp=as.numeric(args[4])
 working_dir = "./"
 
 load(paste0("../../", rdata, ".RData"))
@@ -227,7 +226,7 @@ write.csv(results.all, paste0(working_dir, "node_prob.csv"), row.names = F, quot
 ## tree_100_sub, sif, diet.in, diet.states
 for (d in diet.in){
   summary = NULL
-  for(n in c(mono.nodes, sif$vertlife_name[1:nsp])){
+  for(n in c(mono.nodes, sif$vertlife_name])){
     data = as.data.frame(get(paste0(d, "_estimates"))[[n]])
     data$Taxon = n
     data$tree = tree_id
