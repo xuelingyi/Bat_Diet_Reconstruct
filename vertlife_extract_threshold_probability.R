@@ -1,13 +1,26 @@
 #!/usr/bin/env Rscript
 
-## run this in the working dir that contains results 
-# This script loads MCMCglmm chains and extracts the liability and threshold of each iteration to estimate the trait states of each iteration. Then it estimates the probabilities of each trait states at each node across chains. 
-
 library(MCMCglmm, lib="~/R_4.4")
 library(phytools, lib="~/R_4.4")
 library(janitor, lib="~/R_4.4")
 
-## NOTE: run this script within the dir vertlife/sif179/trees_${code}/tree_id
+
+########################################################################
+## This script first loads the results of each MCMCglmm chain and extracts the liability and threshold of each iteration to give the estimated trait states. 
+## Summed estimates of each node-trait pair across chains are saved in estimates.RData. 
+## Summed estimates of each diet for the labeled nodes are summarized in summary.RData.
+## Probabilities of diet states based on the estimates of each tree are written out in node_prob.csv. 
+## The median and 95% HPD intervals of each threshold are written out in threshold.csv.
+
+## run this script in the dir of each tree 
+# batch=1
+# chain=1  ## loop 1-10
+# rdata=bat621_100tree_batch1
+# Rscript vertlife_extract_threshold_probability.R ${batch} ${chain} ${rdata}
+
+########################################################################
+
+
 
 ### load input files 
 args <- commandArgs(TRUE)
@@ -177,7 +190,6 @@ for ( i in 2:length(Rda_files_in_working_dir) ){
            modify_diet_counts(diet=d, estimates=get(paste0(d, "_estimates"))))
   }
 }
-
 save(list=grep("_estimates", ls(), value=T), file="estimates.RData")
 
 # Write the median and the 95% HPD interval of each threshold to an output file.
@@ -194,7 +206,6 @@ for(t in thresholds){
 my.thresholds = as.data.frame(my.thresholds)
 names(my.thresholds) = c("threshold", "median", "95HPD_low", "95HPD_high")
 write.csv(my.thresholds, paste0(working_dir, "threshold.csv"), row.names = F, quote = F)
-#system(paste0("open ", working_dir, "threshold.csv"))
 
 # write out the diet probabilities per diet type per taxon.
 # if chains have the same lengths, you should combine those for the focal taxa using estimates 
@@ -226,7 +237,7 @@ write.csv(results.all, paste0(working_dir, "node_prob.csv"), row.names = F, quot
 ## tree_100_sub, sif, diet.in, diet.states
 for (d in diet.in){
   summary = NULL
-  for(n in c(mono.nodes, sif$vertlife_name])){
+  for(n in c(mono.nodes, tree$tip.label)){
     data = as.data.frame(get(paste0(d, "_estimates"))[[n]])
     data$Taxon = n
     data$tree = tree_id
