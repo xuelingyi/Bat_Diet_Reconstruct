@@ -6,7 +6,7 @@ library(phytools, lib="~/R_4.4")
 
 ########################################################################
 #### In the dir of the input folder and the R scripts, create a folder for a specified diet_coding (e.g., raw; conserve if basal-insect coding)
-#### in the diet_coding folder, create a folder for each tree to run using the name of the tree index in tree100_batch1.txt
+#### in the diet_coding folder, create a folder for each tree to run using the name of the tree index in tree23_batch2.txt
 #### in the folder of each tree, run the following script on a command line: 
 
 # batch=1
