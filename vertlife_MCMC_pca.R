@@ -4,7 +4,20 @@ library(ape)
 library(MCMCglmm, lib="~/R_4.4")
 library(phytools, lib="~/R_4.4")
 
-## !NOTE: run this script in the dir sif179/trees/tree_id
+########################################################################
+#### In the dir of the input folder and the R scripts, create a folder for a specified diet_coding (e.g., raw; conserve if basal-insect coding)
+#### in the diet_coding folder, create a folder for each tree to run using the name of the tree index in tree100_batch1.txt
+#### in the folder of each tree, run the following script on a command line: 
+
+# batch=1
+# index=1  ## loop through 1-23, trees in the index file
+# chain=1  ## loop through 1-10 chains
+# nitt=2000000
+# thin=50
+# diet_coding=conserve  
+### Rscript ../../vertlife_MCMC_pca.R ${batch} ${index} ${chain} ${nitt} ${thin} ${diet_coding}
+
+########################################################################
 
 # Read the user-provided command line arguments.
 args <- commandArgs(TRUE)
