@@ -7,7 +7,7 @@ The input diets and taxonomy updates are given in the supplementary Table S1. Th
 * **tree100_batch1.txt**: The index of the 100 randomly sampled trees from the 10000 total trees in Upham et al. 2019. Note that these indexes range between 1-10000.
 * **tree23_batch2.txt**: The index of the 23 trees that have the same subfamily topology as the genome phylogeny. Indexes range between 1-10000.
 
-The script **tree_summary_prep_input.R** is used to test clade monophyly, summarize tree topology, and prepare input files for MCMCglmm models. 
+The script **input_tree_summary.R** is used to test clade monophyly, summarize tree topology, and prepare input files for MCMCglmm models. 
 
 # scripts for ancestral reconstructions 
 The scripts for ancestral reconstructions using MCMCglmm are adapted from https://github.com/dgkontopoulos/Kontopoulos_et_al_torpor_evolution_2024 (Kontopoulos et al. 2023). The ancestral diet reconstructions have three major steps, using the above input data and the following scripts:
