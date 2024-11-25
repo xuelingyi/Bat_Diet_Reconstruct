@@ -17,6 +17,9 @@ mono.nodes = c("Stenodermatinae", "Rhinophyllinae", "SR",
 ## a subset of focus taxa
 taxa = mono.nodes[!(mono.nodes %in% c("SR", "Mormoops", "Pteronotus", "super_Noctilionoidea", "VM"))]
 
+## the input sif for each dataset is a subset from Table S1
+sif = read.csv("vertlife_bat621.csv")
+
 ####################################################################################################################
 ############################### test monophyly and summarize topology #########################################
 ## download the full node-dated mammal tree from https://data.vertlife.org/
