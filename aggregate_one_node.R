@@ -1,6 +1,20 @@
 #!/usr/bin/env Rscript
 library(ape)
 
+
+########################################################################
+## This script aggregates results across trees using the estimates saved in estimates.RData which saves the results of all nodes and tips. However, the script will only summarize results if the specified mrca node (using a list of species) is monophyletic across all trees.
+# batch=1
+# rdata=bat621_100tree_batch1
+# id_start=1
+# id_end=100
+# code=conserve
+# node=Myotis
+# Rscript aggregate_one_node.R ${batch} ${rdata} ${id_start} ${id_end} ${code} ${node}
+
+########################################################################
+
+
 args <- commandArgs(TRUE)
 batch = as.numeric(args[1])
 rdata = args[2]
