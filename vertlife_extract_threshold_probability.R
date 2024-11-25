@@ -14,9 +14,9 @@ library(janitor, lib="~/R_4.4")
 
 ## run this script in the dir of each tree 
 # batch=1
-# chain=1  ## loop 1-10
+# tree_id=1  ## loop 1-100 or 1-23, trees in the index file
 # rdata=bat621_100tree_batch1
-# Rscript vertlife_extract_threshold_probability.R ${batch} ${chain} ${rdata}
+# Rscript vertlife_extract_threshold_probability.R ${batch} ${tree_id} ${rdata}
 
 ########################################################################
 
