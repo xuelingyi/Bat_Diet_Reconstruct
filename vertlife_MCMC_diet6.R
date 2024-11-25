@@ -18,7 +18,7 @@ library(phytools, lib="~/R_4.4")
 # fix=1
 # diet_coding=conserve  # or raw
 # rdata=sif179_100tree_batch1_diet6
-### Rscript ../../vertlife_MCMC_diet5.R ${batch} ${index} ${chain} ${nitt} ${thin} ${fix} ${diet_coding} ${rdata}
+### Rscript ../../vertlife_MCMC_diet6.R ${batch} ${index} ${chain} ${nitt} ${thin} ${fix} ${diet_coding} ${rdata}
 
 ########################################################################
 
