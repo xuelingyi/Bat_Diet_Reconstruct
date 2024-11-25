@@ -1,13 +1,23 @@
 #!/usr/bin/env Rscript
 
-## run this in the working dir that contains results 
-# This script loads MCMCglmm chains and extracts the liability and threshold of each iteration to estimate the trait states of each iteration. Then it estimates the probabilities of each trait states at each node across chains. 
-
 library(MCMCglmm, lib="~/R_4.4")
 library(phytools, lib="~/R_4.4")
 library(janitor, lib="~/R_4.4")
 
-## NOTE: run this script within the dir vertlife/sif179/trees_${code}/tree_id
+########################################################################
+## This script first loads the results of each MCMCglmm chain and extracts the liability and threshold of each iteration to give the estimated trait states. 
+## Summed estimates of each node-trait pair across chains are saved in estimates.RData. 
+## Summed estimates of each diet for the labeled nodes are summarized in summary.RData.
+## Probabilities of diet states based on the estimates of each tree are written out in node_prob.csv. 
+## The median and 95% HPD intervals of each threshold are written out in threshold.csv.
+
+## run this script in the dir of each tree 
+# batch=2
+# index=1  ## loop 1-23, trees in the index file
+# Rscript ../../vertlife_extract_threshold_probability_ppca.R ${batch} ${index}
+
+########################################################################
+
 
 ### load input files 
 args <- commandArgs(TRUE)
@@ -19,7 +29,7 @@ load(paste0("../../inputs/sif176_ppca_topo11_index_", batch_tree_index, ".RData"
 # tree, scores, diet.in, diet.states, mono.nodes
 n.edge = length(tree$edge)/2
 
-trees = read.table(paste0("../../tree100_batch", batch, ".txt"))
+trees = read.table(paste0("../../tree23_batch", batch, ".txt"))
 tree_id = trees[batch_tree_index, "V1"]
 
 # Look for model fit files in the working directory.
