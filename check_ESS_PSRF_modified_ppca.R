@@ -3,6 +3,7 @@
 ## Script modified from https://github.com/dgkontopoulos/Kontopoulos_et_al_torpor_evolution_2024 (Kontopoulos et al. 2023)
 ## run in the dir of each tree
 ## two traits (PC1, PC2), do not generate trace plots
+## Note: Gaussian models on continuous traits do not estimate thresholds, so remove this variable in the parameter check
 # diet=2
 # Rscript check_ESS_PSRF_modified_ppca.R ${diet} F >> ../../check_ESS_PSRF.log
 
