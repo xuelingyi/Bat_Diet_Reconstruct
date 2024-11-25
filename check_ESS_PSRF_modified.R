@@ -1,15 +1,11 @@
 #!/usr/bin/env Rscript
 
-## NB! run this in the dir where the results are saved
+## Script modified from https://github.com/dgkontopoulos/Kontopoulos_et_al_torpor_evolution_2024 (Kontopoulos et al. 2023)
+## run in the dir of each tree
+## e.g., five diets, do not generate trace plots
+## Rscript check_ESS_PSRF_modified.R 5 F
 
-# This script checks if a model that was fitted with MCMCglmm was 
-# executed for a sufficient number of MCMC generations. It does so
-# by examining the effective sample size and potential scale reduction 
-# factor of each model parameter.
 
-# The script needs to be run from the command line, with the user providing the directory where the model outputs (*.Rda files) are found, and the number of traits included, e.g.:
-
-# Rscript check_ESS_PSRF.R ../Results/MCMCglmm_fits/ 6
 
 library(MCMCglmm, lib="~/R_4.4")
 
