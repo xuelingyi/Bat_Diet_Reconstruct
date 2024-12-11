@@ -15,6 +15,7 @@ The scripts for ancestral reconstructions using MCMCglmm are adapted from https:
 2. **check_ESS_PSRF_modified.R** and **check_ESS_PSRF_modified_ppca.R**: check chain convergence for each tree based on the effective sample size (ESS) and potential scale reduction factor (PSRF) of each model parameter.
 3. **vertlife_extract_threshold_probability.R** and **vertlife_extract_threshold_probability_ppca**: for each tree, summarize results across chains.
 4. **aggregate.R**: aggregate results of the labeled node of interest across trees. For a node not labeled in the input, **aggregate_one_node.R** can be used to get its estimated diet states across chains and trees. pPCA results are aggregated and plotted using **aggregate_ppca.R**
+5. **phyloEM.R**: automatically detect adaptive shifts using the ppca scores.
 
 The script **output_summary.R** was used to visualize and compare results (e.g., tip input versus output states, results across topologies). 
 
