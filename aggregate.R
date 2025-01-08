@@ -55,4 +55,4 @@ for(id in (id_start+1):id_end){
 setwd("../")
 
 save(list = grep("aggregate", ls(), value=T), 
-     file=paste0("mcmc_aggregate_diet6_", diet.code, "_", id_start, "_", id_end, ".RData"))
+     file=paste0("mcmc_aggregate_diet5_", diet.code, "_", id_start, "_", id_end, ".RData"))
