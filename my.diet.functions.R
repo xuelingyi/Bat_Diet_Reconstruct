@@ -112,7 +112,7 @@ get_tip_posterior_HPD = function(sp, d, prob = F, ...){
 
 # this function plots the tips that have different states of a diet between input and posterior
 # update tip names to ScientificName 
-plot_tip_bar = function(d, tip.posterior.data, tip.lab = "vertlife_name", ...) {
+plot_tip_bar_HPD = function(d, tip.posterior.data, tip.lab = "vertlife_name", ...) {
   data = NULL
   for(s in 0:3){
     if(s %in% unique(sif[,d])){
@@ -130,12 +130,22 @@ plot_tip_bar = function(d, tip.posterior.data, tip.lab = "vertlife_name", ...) {
     }
   }
   data$input = as.character(data$input)
-  return(ggplot(data, aes(y=species, x=prob, fill=state, label=input)) + 
-           geom_bar(stat="identity") +
-           scale_fill_manual(values=setNames(state.color, names(diet.states)), name=d, 
+  
+  data$output_state = "NO"
+  for(s in data$species){
+    data[data$species == s & data$prob == max(data[data$species == s, "prob"]), "output_state"]="YES"
+  }
+  
+  return(ggplot() + 
+           geom_bar(data=data, aes(y=species, x=prob, fill=state), stat="identity", alpha=0.5) +
+           scale_fill_manual(values=c(setNames(state.color, names(diet.states)), 
+                                      setNames(state.color, diet.states)), name=d, 
                              labels = paste0(diet.states, "_", names(diet.states))) +
-           geom_text(aes(x = -0.05, colour = input)) + 
-           scale_color_manual(values=c("0"="grey60", "1"="#6baed6", "2"="#08519c", "3"="black"), guide="none")+ theme_classic() + theme(panel.grid = element_line(color="white")) 
-  )
+           geom_text(data=data, aes(x = -0.05, y=species, colour = input, label=input)) + 
+           scale_color_manual(values=c("0"="grey60", "1"="#6baed6", "2"="#08519c", "3"="black",
+                                       "Absent"="grey60", "Complementary"="#6baed6", "Predominant"="#08519c", "Strict"="black"), guide="none")+ theme_classic() + theme(panel.grid = element_line(color="white")) +
+           geom_segment(data=data[data$output_state == "YES",], aes(y=species, x=HPD95_lower, xend=HPD95_upper, color=state)) +
+           geom_point(data=data[data$output_state == "YES",], aes(y=species, x=prob, color=state))) 
 }
+
 
