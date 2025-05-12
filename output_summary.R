@@ -141,7 +141,7 @@ for(d in c("Arthropods", "Pollen.and.nectar", "Fruit")){
       data.all = rbind(data.all, data)
     }
     assign(paste0(d, "_data"), data.all)
-    assign(paste0(d, "_plot"), plot_tip_bar(d, data.all, tip.lab = "ScientificName") + labs(title=d))
+    assign(paste0(d, "_plot"), plot_tip_bar_HPD(d, data.all, tip.lab = "ScientificName") + labs(title=d))
 }
 
 ggarrange(nrow=1, ncol=2, widths = c(1.2, 1),
