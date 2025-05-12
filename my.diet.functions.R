@@ -9,6 +9,7 @@ library(ggimage)
 library(ape)
 library(stringr)
 library(reshape2)
+library(coda)
 
 
 diets = c("Arthropods", "Blood", "Terrestrial.vertebrates", 
@@ -63,7 +64,7 @@ get_node_pie_plot = function(n, d, prob=F, trees = NULL, title = NULL, lab.size=
 # input is diet_summary_aggregate
 # returns the posterior state (counts or probabilities) of a tip species (sp; could also be a node) and a diet (d)
 # print a note if the most likely state has the probability < 0.5
-get_tip_posterior = function(sp, d, prob = F, ...){
+get_tip_posterior_HPD = function(sp, d, prob = F, ...){
   summary = get(paste0(d, "_summary_aggregate"))
   summary = summary[summary$Taxon == sp, ]
   
@@ -84,6 +85,20 @@ get_tip_posterior = function(sp, d, prob = F, ...){
                  data[1,"state"], " ", round(data[1,"prob"], 3), "; ",
                  data[2,"state"], " ", round(data[2,"prob"], 3)))
   }
+  
+  ## the above equals to the mean value
+  #data$mean = sapply(data$state, FUN = function(x){ mean(summary[, x])/360000 })
+
+  ## estimate median and 95% HPD: aggregate across trees, each tree representing counts from 360000 iterations 
+  data$median = sapply(data$state, FUN = function(x){
+    median(summary[, x])/360000
+  })
+  data$HPD95_lower = sapply(data$state, FUN = function(x){
+    HPDinterval(mcmc(summary[, x]))[1]/360000
+  })
+  data$HPD95_upper = sapply(data$state, FUN = function(x){
+    HPDinterval(mcmc(summary[, x]))[2]/360000
+  })
   
   if(prob == T){
     ## return state probabilities
