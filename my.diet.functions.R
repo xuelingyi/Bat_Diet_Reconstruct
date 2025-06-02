@@ -85,7 +85,6 @@ get_tip_posterior_HPD = function(sp, d, prob = F, ...){
                  data[1,"state"], " ", round(data[1,"prob"], 3), "; ",
                  data[2,"state"], " ", round(data[2,"prob"], 3)))
   }
-  
   ## the above equals to the mean value
   #data$mean = sapply(data$state, FUN = function(x){ mean(summary[, x])/360000 })
 
@@ -149,3 +148,33 @@ plot_tip_bar_HPD = function(d, tip.posterior.data, tip.lab = "vertlife_name", ..
 }
 
 
+## the following function plots the pie charts of ABDOMEN-estimated diet compositions (node_estimate, including estimates of multiple trees) 
+## at a specific node (n) using the mean value across trees
+get_node_pie_posterior_abdomen = function(node_estimate, n, prob=F, diet.in=diet.in, lab.size=8, ...){
+  
+  summary = node_estimate[node_estimate$tree_nodes == n, ]
+  
+  data = as.data.frame(diet.in)
+  names(data) = "Diet"
+  data$estimate = sapply(data$Diet, FUN = function(x){
+    mean(as.numeric(summary[, x]))
+  })
+  data$sd = sapply(data$Diet, FUN = function(x){
+    sd(as.numeric(summary[, x]))
+  })
+
+  ## print the estimated mean and SD
+  if(prob){
+    data$posterior = paste0(round(data$estimate * 100, 1),"% +- ",  paste0(round(data$sd * 100, 2), "%"))
+    data$node = n
+    return(data)
+    
+  } else {
+    return(ggplot(data, aes(x="", y=estimate, fill=Diet)) +
+             scale_fill_manual(values=c("Arthropods"="grey35", "Blood"="#cd0000ff", "Terrestrial.vertebrates"="purple3", "Fish"= "grey", "Pollen.and.nectar"= "#ffa500ff", "Fruit"="#027b7bff"), name="") +
+             geom_bar(stat="identity", width=1) +
+             coord_polar("y", start=0) + 
+             labs(title=n) +
+             theme_void() + theme(title = element_text(size=lab.size)))
+  }
+}
