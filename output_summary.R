@@ -240,6 +240,7 @@ print(ggarrange(nrow = 3, ncol=1,
 ##########################################################
 ############################# plot ABDOMEN results ##################################
 load("elton143_diet5_tree23.RData")
+## compile the Z0_nodes estimates extracted from all trees into one file and read in
 Z0_nodes = read.csv("sif143_diet5_23trees.tsv", sep="\t")
 names(Z0_nodes) = gsub(".elton", "", names(Z0_nodes))
 
