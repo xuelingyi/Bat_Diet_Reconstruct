@@ -10,7 +10,7 @@ The input diets and taxonomy updates are given in the supplementary Table S1. Th
 The script **input_tree_summary.R** is used to test clade monophyly, summarize tree topology, and prepare input files for MCMCglmm and ABDOMEN models. 
 
 # ancestral reconstructions 
-The scripts for ancestral reconstructions using MCMCglmm are adapted from https://github.com/dgkontopoulos/Kontopoulos_et_al_torpor_evolution_2025 (Kontopoulos et al. 2025) using the above input data and the following scripts (1-4). Ancestral reconstructions using continuous compositional data follow the ABDOMEN tutorial https://github.com/BPerezLamarque/ABDOMEN.
+The scripts for ancestral reconstructions using MCMCglmm are adapted from https://github.com/dgkontopoulos/Kontopoulos_et_al_torpor_evolution_2025 (Kontopoulos et al. 2025) using the above input data and the following scripts (1-4). Ancestral reconstructions using continuous compositional data follow the ABDOMEN (Perez-Lamarque et al. 2023) tutorial https://github.com/BPerezLamarque/ABDOMEN.
 1. **vertlife_MCMC_diet5.R**: fit the MCMCglmm model on five diets, used for the datasets sif176 and bat621. **vertlife_MCMC_diet6.R** includes blood feeding and vampire bats (sif179). **vertlife_MCMC_pca.R** fits MCMCglmm models on the first two PCs summarized using pPCA of the three main diets (sif176 with 23 trees). 
 2. **check_ESS_PSRF_modified.R** and **check_ESS_PSRF_modified_ppca.R**: check chain convergence for each tree based on the effective sample size (ESS) and potential scale reduction factor (PSRF) of each model parameter.
 3. **vertlife_extract_threshold_probability.R** and **vertlife_extract_threshold_probability_ppca**: for each tree, summarize results across chains.
