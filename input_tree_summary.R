@@ -144,7 +144,7 @@ save(tree_100_sub, taxa, diet.in, diet.states, sif, file="bat621_100tree_batch1.
 ## also for the other datasets sif176 (Phyllostomidae-focus) and sif179 (Phyllostomidae-focus including vampire bats)
 
 ####################################################################################################################
-############################### prep inputs of the 23 trees having the genome subfamily topology #########################################
+############################### prep discrete inputs of the 23 trees having the genome subfamily topology #########################################
 ## get the 23 trees sharing the topology in the genome phylogeny (topology #11 in the summary)
 tree_list = gsub("tree", "", unlist(strsplit(pg.topology.summary[pg.topology.summary$topology == 11, "trees"], split = "; ")))
 tree_list = tree_list[tree_list != ""]
@@ -213,7 +213,52 @@ save(tree_100_sub, sif, diet.in, diet.states, mono.nodes,
      file=paste0("sif176_tree23_topo11_diet", length(diet.in), ".RData"))
 
 ####################################################################################################################
-############################### pPCA and the inputs for continuous trait reconstruction #########################################
+############################### continuous inputs of the 23 trees having the genome subfamily topology #########################################
+## load the saved 23 trees and diets
+load("sif176_tree23_topo11_diet5.RData")
+
+## read in the EltonTrait data (supplementary Table S3)
+sif = read.csv("elton145.csv")
+## check that all 8 diet items sum up to 100%
+all(apply(sif[, grep("elton", names(sif))], 1, sum) == 100)
+# TRUE
+### merge trace diets (same as in discrete diets)
+sif$Fruit.elton = sif$Fruit.elton + sif$Seed.elton
+sif$Pollen.and.nectar.elton = sif$Pollen.and.nectar.elton + sif$Leaves.and.flower.pieces.elton
+## exclude vampires
+sif = sif[sif$Blood.elton != 100, !(names(sif) %in% c("Seed.elton", "Leaves.and.flower.pieces.elton", "Blood.elton"))
+diet.in = diet.in[diet.in != "Blood"]
+# 143, 5 diets
+
+## prepare abdomen input file
+sif_abdomen = sif[, paste0(diet.in, ".elton")]
+row.names(sif_abdomen) = sif$vertlife_name
+all(apply(sif_abdomen, 1, sum)==100)
+#[1] TRUE
+# change to percent
+for(d in diet.in){
+  sif_abdomen[, paste0(d, ".elton")] = as.numeric(sif_abdomen[, paste0(d, ".elton")])/100
+}
+table=as.matrix(sif_abdomen)
+
+## subset trees to the 143 species 
+nodes = NULL
+for(i in 1:23){
+  tree_100_sub[[i]] = keep.tip(tree_100_sub[[i]], sif$vertlife_name) 
+  nodes = c(nodes, mono.nodes[!(mono.nodes %in% tree_100_sub[[i]]$node.label)])
+}
+unique(nodes)
+## some internal nodes of interest would be removed due to changes in tips 
+# [1] "Lonchophyllinae" "Desmodontinae" 
+mono.nodes = mono.nodes[mono.nodes!="Desmodontinae"]
+for(i in 1:23){
+  tree_100_sub[[i]]$node.label[getMRCA(tree_100_sub[[i]], sif[sif$Subfamily == "Lonchophyllinae", "vertlife_name"]) - length(tree_100_sub[[i]]$tip.label)] = "Lonchophyllinae"
+}
+
+save(sif, tree_100_sub, diet.in, mono.nodes, table, file="elton143_diet5_tree23.RData")
+
+####################################################################################################################
+############################### pPCA reconstruction #########################################
 # use the basal-inset coding
 for(sp in sif[sif$conservative_coding != "NO", "vertlife_name"]){
   sif[sif$vertlife_name == sp, c("Arthropods", "Fruit")] = c(3, 0) 
@@ -244,4 +289,5 @@ for(i in 1:23){
 }
 
 ####################################################################################################################
+
 
