@@ -48,7 +48,7 @@ gheatmap(ggdensitree(tree) + geom_tiplab(aes(label=ScientificName), size=1.8) +
         legend.background = element_blank())
 
 ## densitree of all trees
-ggdensitree(tree_100_sub, alpha=.3, colour='steelblue') + 
+ggdensitree(tree_100_sub, alpha=.3, colour='#adb8c2') + 
   hexpand(.3) + vexpand(0.05)
 
 
@@ -67,7 +67,7 @@ for(diet.code in c("raw", "conserve")){
     
     for(d in diet.in){
       assign(paste0(d, ".plot"), get_node_pie_plot(n, d, title="no_food", lab.size=5))
-      node_estimate[node_estimate$mono.nodes == n, paste0(d, "_", diet.code)] = get_tip_posterior(n, d)
+      node_estimate[node_estimate$mono.nodes == n, paste0(d, "_", diet.code)] = get_tip_posterior_HPD(n, d)
     }
     
     assign(paste0(n, ".plot"), 
@@ -125,7 +125,7 @@ names(sif_estimate) = c("vertlife_name", paste0(diet.in, "_", diet.code))
 for(d in diet.in){
     for(i in 1:176){
       sp = sif_estimate[i, "vertlife_name"]
-      sif_estimate[i, paste0(d, "_", diet.code)] = get_tip_posterior(sp, d)
+      sif_estimate[i, paste0(d, "_", diet.code)] = get_tip_posterior_HPD(sp, d)
     }
 }
 
@@ -136,7 +136,7 @@ for(d in c("Arthropods", "Pollen.and.nectar", "Fruit")){
   
     data.all = NULL
     for(sp in species){
-      data = get_tip_posterior(sp, d, prob = T)
+      data = get_tip_posterior_HPD(sp, d, prob = T)
       data$species = sif[sif$vertlife_name ==sp, "ScientificName"]
       data.all = rbind(data.all, data)
     }
@@ -235,3 +235,38 @@ print(ggarrange(nrow = 3, ncol=1,
                                                            axis.ticks.x = element_blank()), 
                 Fruit_plot))
 
+
+
+##########################################################
+############################# plot ABDOMEN results ##################################
+load("elton143_diet5_tree23.RData")
+Z0_nodes = read.csv("sif143_diet5_23trees.tsv", sep="\t")
+names(Z0_nodes) = gsub(".elton", "", names(Z0_nodes))
+
+## only the nodes of interest
+taxa = mono.nodes[!(mono.nodes %in% c("SR", "Mormoops", "Pteronotus", "super_Noctilionoidea", "VM"))]
+node_estimate = Z0_nodes[Z0_nodes$tree_nodes %in% taxa,]
+
+for(n in taxa){
+  assign(paste0(n, ".plot"), get_node_pie_posterior_abdomen(node_estimate, n, prob=F, lab.size=7) + theme(legend.position = "none"))
+}
+
+pdf("sif143_diet5_23trees/sif143_diet5_23trees_node_pie.pdf", height = 14, width=6)
+print(ggarrange(nrow=2, ncol=1, heights = c(1, 7),
+                get_node_pie_posterior_abdomen(node_estimate, "Stenodermatinae", prob=F, lab.size=7) ,
+  ggarrange(ncol = 3, nrow = 7,
+                Rhinophyllinae.plot, Carolliinae.plot, Glyphonycterinae.plot, 
+                SRCG.plot, Glossophaginae.plot, Phyllostominae.plot, Lonchophyllinae.plot, 
+                Lonchorhininae.plot, early_burst.plot, Micronycterinae.plot, 
+                EB_Mic.plot, Macrotinae.plot, Phyllostomidae.plot, 
+                PM.plot, Noctilionidae.plot, Thyropteridae.plot, 
+                Vespertilionidae.plot, Molossidae.plot, Emballonuridae.plot, root.plot, ggplot()+theme_void())))
+dev.off()
+
+## get estimates across trees
+estimates = NULL
+for(n in taxa){
+  estimates = rbind(estimates, get_node_pie_posterior_abdomen(node_estimate, n, prob=T))
+}
+write.csv(estimates, "sif143_diet5_23trees/mean_Z0_estimates.csv", row.names = F, quote = F)
+##########################################################
