@@ -264,6 +264,34 @@ print(ggarrange(nrow=2, ncol=1, heights = c(1, 7),
                 Vespertilionidae.plot, Molossidae.plot, Emballonuridae.plot, root.plot, ggplot()+theme_void())))
 dev.off()
 
+
+
+## plot the tree with uncertainty heatmap and labels
+sif$label = sif$vertlife_name
+tree = left_join(tree_100_sub[[1]], sif[, c("label", "ScientificName")], by="label")
+## just so that densitree can work
+tree = append(tree, tree)
+uncertainty.heatmap = as.data.frame(sif[, "Diet.Certainty"])
+rownames(uncertainty.heatmap) = sif$vertlife_name
+pdf("sif143_diet5_tree1_uncertainty.pdf", width = 8, height = 11)
+gheatmap(ggdensitree(tree) + geom_tiplab(aes(label=ScientificName), size=1.8) + 
+           geom_nodelab(aes(label=gsub('([0-9])', '', label)), size=3) + 
+           hexpand(.3) + vexpand(0.05), 
+         uncertainty.heatmap, offset=12, width=0.05, font.size=2.5, color="black",
+         colnames_angle=90, colnames_position = "top", hjust = 0) + 
+  scale_fill_manual(values=c("ABC"="black", "D1"="#fc9272", "D2"="#de2d26")) +
+  theme(legend.key.size = unit(0.8, "line"),
+        legend.text = element_text(size=6), legend.title = element_text(size=8),
+        legend.position = "inside", legend.position.inside = c(0.1, 0.6),
+        legend.background = element_blank())
+dev.off()
+
+# plot densi tree
+png("sif143_diet5_23trees/sif143_23tree_densi.png", width = 8, height = 11, res = 600, units = "in")
+ggdensitree(tree_100_sub, alpha=.5, colour='#adb8c2') + hexpand(.3) + vexpand(0.05)
+dev.off()
+
+
 ## get estimates across trees
 estimates = NULL
 for(n in taxa){
