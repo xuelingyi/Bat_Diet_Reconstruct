@@ -8,6 +8,12 @@ The input diets and taxonomy updates are given in the supplementary Table S1. Th
 * **tree23_batch2.txt**: The index of the 23 trees that have the same subfamily topology as the genome phylogeny. Indexes range between 1-10000.
 
 The script **input_tree_summary.R** is used to test clade monophyly, summarize tree topology, and prepare input files for MCMCglmm and ABDOMEN models. 
+The summarized data are loaded for the following analyses.
+* sif179_100tree_batch1_diet6.RData: the Phyllostomidae-focused analysis including vampire bats across 100 trees
+* sif176_100tree_batch1_diet5.RData: the Phyllostomidae-focused analysis without vampire bats across 100 trees
+* sif176_tree23_topo11_diet5.RData: the Phyllostomidae-focused analysis without vampire bats, using only the 23 trees having the optimal subfamily topology
+* bat621_100tree_batch1.RData: the all-bat analysis without vampire bats across 100 trees
+* elton143_diet5_tree23.RData: the Phyllostomidae-focused analysis using compositional diets for ABDOMEN       
 
 # ancestral reconstructions 
 The scripts for ancestral reconstructions using MCMCglmm are adapted from https://github.com/dgkontopoulos/Kontopoulos_et_al_torpor_evolution_2025 (Kontopoulos et al. 2025) using the above input data and the following scripts (1-4). Ancestral reconstructions using continuous compositional data follow the ABDOMEN (Perez-Lamarque et al. 2023) tutorial https://github.com/BPerezLamarque/ABDOMEN.
@@ -16,6 +22,7 @@ The scripts for ancestral reconstructions using MCMCglmm are adapted from https:
 3. **vertlife_extract_threshold_probability.R** and **vertlife_extract_threshold_probability_ppca**: for each tree, summarize results across chains.
 4. **aggregate.R**: aggregate results of the labeled node of interest across trees. For a node not labeled in the input, **aggregate_one_node.R** can be used to get its estimated diet states across chains and trees. pPCA results are aggregated and plotted using **aggregate_ppca.R**
 5. **phyloEM.R**: automatically detect adaptive shifts using the ppca scores.
+6. **abdomen.R**: run continuous compositional models using ABDOMEN.
 
 The script **output_summary.R** was used to visualize and compare results (e.g., tip input versus output states, results across topologies). 
 
