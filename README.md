@@ -1,6 +1,5 @@
 # Reconstruct ancestral diets in bats
-These scripts are used for bat ancestral diet reconstructions described in the paper "Comprehensive phylogenetic trait estimations support
-ancestral omnivory in the ecologically diverse bat family Phyllostomidae", published in Evolution 2025 (https://academic.oup.com/evolut/advance-article-abstract/doi/10.1093/evolut/qpaf154/8222499?utm_source=advanceaccess&utm_campaign=evolut&utm_medium=email). 
+These scripts are used for bat ancestral diet reconstructions described in the paper "**Comprehensive phylogenetic trait estimations support ancestral omnivory in the ecologically diverse bat family Phyllostomidae**", published in Evolution 2025 (https://academic.oup.com/evolut/advance-article-abstract/doi/10.1093/evolut/qpaf154/8222499?utm_source=advanceaccess&utm_campaign=evolut&utm_medium=email). 
 
 # input data
 The input diets and taxonomy updates are given in the supplementary Table S1. The input phylogenetic trees are the node-dated “DNA-only” mammalian trees downloaded from VertLife http://vertlife.org/phylosubsets (Upham et al., 2019). Indexes of the trees used in our analyses are provided in **data.zip** which includes: 
